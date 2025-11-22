@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Летний сад - Тихвин</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .hero-section {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hero-text {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            width: 90%;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .hero-text .lead {
+            font-size: 1.4rem;
+            opacity: 0.95;
+        }
+        
+        .carousel-section .carousel {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.carousel-section .carousel-inner {
+    border-radius: 15px;
+    overflow: hidden;
+}
+        
+        .description-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .map-section {
+            margin-bottom: 3rem;
+        }
+        
+        #map {
+            height: 450px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+        }
+        
+        .features-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+        
+        .feature-list li::before {
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        
+        .history-section {
+            background: #f8f9fa;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border-left: 5px solid #f9fcfa;
+        }
+        
+        .visit-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            border: none;
+            color: black;
+            font-weight: bold;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .visit-btn:hover {
+            background: linear-gradient(45deg, #f8fcfa, #f4faf7);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px #f7fdfa;
+            color: rgb(7, 7, 7);
+        }
+        
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #5a6268;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .facility-badge {
+            background: #e8f5e8;
+            color: #27ae60;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 5px;
+            display: inline-block;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-text .lead {
+                font-size: 1.2rem;
+            }
+            
+            .carousel-item img {
+                height: 350px;
+            }
+            
+            .description-section {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-section {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .carousel-item img {
+                height: 250px;
+            }
+            
+            .info-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .park-marker {
+            font-size: 35px;
+            text-align: center;
+        }
+        
+        .season-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 2px;
+        }
+        
+        .spring { background: #87d37c; color: white; }
+        .summer { background: #f4d03f; color: #333; }
+        .autumn { background: #e67e22; color: white; }
+        .winter { background: #3498db; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <img src="img/letsad.jpg" alt="Летний сад">
+        <div class="hero-text">
+            <h1>Летний сад</h1>
+            <p class="lead">Старейший парк Тихвина - зелёная жемчужина города</p>
+        </div>
+    </div>
+
+        <section class="carousel-section">
+            <div id="gardenCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#gardenCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#gardenCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#gardenCarousel" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#gardenCarousel" data-bs-slide-to="3"></button>
+                    <button type="button" data-bs-target="#gardenCarousel" data-bs-slide-to="4"></button>
+                    <button type="button" data-bs-target="#gardenCarousel" data-bs-slide-to="5"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="img/letsad1.webp" class="d-block w-100">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/letsad.jpg" class="d-block w-100">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/letsad2.webp" class="d-block w-100">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/letsad3.webp" class="d-block w-100">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/letsad4.webp" class="d-block w-100">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/letsad5.webp" class="d-block w-100">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#gardenCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#gardenCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </section>
+
+        <section class="description-section">
+            <div class="row">
+                    <h2 class="mb-4">История и описание</h2>
+                    <p class="lead">Городской общественный сад был заложен в 1870-е гг. по инициативе первого городского головы, председателя городской Думы и управы, купца 2-й гильдии Иосифа Владимировича Лохвицкого (1820–1890).</p>
+<p class="lead">В 1914 г. в саду построили летний театр с открытой сценой и танцевальную площадку. Летом на сцене театра играл духовой оркестр пожарной дружины. Зимой на пруду устраивался каток. В 1916 г. в специально построенном деревянном здании открылся первый тихвинский публичный кинотеатр.</p>
+<p class="lead">Современное название сад получил в 1930-е гг. Здесь проходили городские праздники; в летнем театре давали спектакли театральные антрепризы.</p>
+<p class="lead">Во время оккупации Тихвина гитлеровцами в ноябре-декабре 1941 г. Летний сад серьёзно пострадал. Захватчики спилили часть деревьев для устройства огневых точек, при отступлении сожгли театр.</p>
+<p class="lead">Возрождение Летнего сада началось в 1944 г. Заново отстроили театр, появилась ограда. 24 июля 1945 г. состоялись первые народные гуляния.</p>
+<p class="lead">В 1946 г. вход в Летний сад стал платным, средства шли на его содержание. Горожане посещали театр, где выступали именитые гастролёры, в том числе, артисты БДТ им. Г. А. Товстоногова, певец Муслим Магомаев.</p>
+<p class="lead">В 1970-е гг. в саду работало кафе. В 1980-е гг. сад пришёл в запустение и не использовался. Только в начале XXI в. здесь начали проводить музыкально-литературные программы в рамках празднований Дня города.</p>
+<p class="lead">Новую жизнь Летний сад получил благодаря участию Тихвина в федеральном конкурсе лучших проектов создания комфортной городской среды «Малые города и исторические поселения». Открытие Летнего сада после обновления состоялось 14 октября 2023 г.</p>
+
+                <div class="col-lg-4">
+                    <div class="info-card">
+                        <h4 class="mb-4">Основная информация</h4>
+                        <div class="feature-item">
+                            <strong>Статус:</strong><br>
+                            Городской парк культуры и отдыха
+                        </div>
+                        <div class="feature-item">
+                            <strong>Площадь:</strong><br>
+                            5,2 гектара
+                        </div>
+                        <div class="feature-item">
+                            <strong>Год основания:</strong><br>
+                            XIX век
+                        </div>
+                        <div class="feature-item">
+                            <strong>Категория:</strong><br>
+                            Объект культурного наследия
+                        </div>
+                        <div class="feature-item">
+                            <strong>Состояние:</strong><br>
+                            Отличное, регулярно обновляется
+                        </div>
+                    </div>
+                    
+                    <div class="features-card">
+                        <h4 class="mb-4">Режим работы</h4>
+                        <div class="feature-item">
+                            <strong>Летний период:</strong><br>
+                            Ежедневно 6:00 - 24:00
+                        </div>
+                        <div class="feature-item">
+                            <strong>Зимний период:</strong><br>
+                            Ежедневно 7:00 - 23:00
+                        </div>
+                        <div class="feature-item">
+                            <strong>Освещение:</strong><br>
+                            До 23:00 ежедневно
+                        </div>
+                        <div class="feature-item">
+                            <strong>Вход:</strong><br>
+                            Бесплатный, свободный
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="map-section">
+            <h2 class="text-center mb-4">📍 Местоположение Летнего сада</h2>
+            <div id="map"></div>
+            <div class="text-center mt-3">
+                <p class="text-muted">г. Тихвин, между улицами Советская и Карла Маркса</p>
+                <a href="https://yandex.ru/maps/?text=Тихвин+Летний+сад" 
+                   class="btn btn-outline-success" target="_blank">
+                    📍 Открыть в Яндекс.Картах
+                </a>
+            </div>
+        </section>
+    </div>
+
+   <main class="main-content">
+        <div class="attraction">
+            <a href="index.html" class="back-link">← Назад к достопримечательностям</a>
+            
+            <div id="attraction-content">
+            </div>
+        </div>
+    </main>
+
+     <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p>&copy; 2025 Кто куда, а мы в Тихвин! Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+       
+        function initMap() {
+            
+            const gardenCoords = [59.6450, 33.5150];
+            
+            const map = L.map('map').setView(gardenCoords, 16);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+            
+            const parkIcon = L.divIcon({
+                className: 'park-marker',
+                html: '🌳',
+                iconSize: [45, 45],
+                iconAnchor: [22, 45]
+            });
+            
+            L.marker(gardenCoords, {icon: parkIcon})
+                .addTo(map)
+                .bindPopup(`
+                    <div style="text-align: center;">
+                        <h4 style="margin: 0 0 10px 0; color: #333;">Летний сад Тихвина</h4>
+                        <p style="margin: 0; color: #666;">г. Тихвин, Центральный район</p>
+                        <hr style="margin: 10px 0;">
+                        <small style="color: #888;">🌿 Старейший городской парк</small><br>
+                        <small style="color: #888;">🕒 Ежедневно 6:00-24:00</small><br>
+                        <small style="color: #888;">🎫 Бесплатный вход</small>
+                    </div>
+                `)
+                .openPopup();
+            
+            const parkBounds = [
+                [59.6445, 33.5140],
+                [59.6445, 33.5160],
+                [59.6455, 33.5160],
+                [59.6455, 33.5140]
+            ];
+            
+            L.polygon(parkBounds, {
+                color: '#27ae60',
+                fillColor: '#27ae60',
+                fillOpacity: 0.1,
+                weight: 2
+            }).addTo(map);
+            
+            const pointsOfInterest = [
+                {
+                    coords: [59.6448, 33.5135],
+                    name: "Главный вход",
+                    icon: "🚪",
+                    description: "Центральный вход в парк"
+                },
+                {
+                    coords: [59.6452, 33.5155],
+                    name: "Центральный фонтан",
+                    icon: "⛲",
+                    description: "Архитектурный фонтан"
+                },
+                {
+                    coords: [59.6446, 33.5158],
+                    name: "Детская площадка",
+                    icon: "👶",
+                    description: "Игровая зона для детей"
+                },
+                {
+                    coords: [59.6454, 33.5148],
+                    name: "Кафе",
+                    icon: "🍦",
+                    description: "Летнее кафе"
+                }
+            ];
+            
+            pointsOfInterest.forEach(point => {
+                L.marker(point.coords, {
+                    icon: L.divIcon({
+                        className: 'poi-marker',
+                        html: point.icon,
+                        iconSize: [25, 25],
+                        iconAnchor: [12, 25]
+                    })
+                })
+                .addTo(map)
+                .bindPopup(`
+                    <div style="text-align: center;">
+                        <h5 style="margin: 0 0 5px 0; color: #333;">${point.name}</h5>
+                        <p style="margin: 0; color: #666;">${point.description}</p>
+                    </div>
+                `);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+            
+            const myCarousel = document.getElementById('gardenCarousel');
+            if (myCarousel) {
+                const carousel = new bootstrap.Carousel(myCarousel, {
+                    interval: 5000,
+                    wrap: true
+                });
+            }
+        });
+    </script>
+</body>
+</html>

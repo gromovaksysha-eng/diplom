@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тихвинский Богородичный Успенский мужской монастырь</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .hero-section {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hero-text {
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .carousel-section .carousel {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.carousel-section .carousel-inner {
+    border-radius: 15px;
+    overflow: hidden;
+}
+        
+        .description-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .map-section {
+            margin-bottom: 3rem;
+        }
+        
+        #map {
+            height: 400px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .info-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .download-section {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+        }
+        
+        .btn-gold {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border: none;
+            color: #333;
+            font-weight: bold;
+            padding: 12px 30px;
+        }
+        
+        .btn-gold:hover {
+            background: linear-gradient(45deg, #FFA500, #FF8C00);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .carousel-item img {
+                height: 300px;
+            }
+            
+            .description-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="hero-section">
+        <img src="img/monastir.webp" alt="Тихвинский монастырь">
+        <div class="hero-text">
+            <h1>Тихвинский Богородичный Успенский мужской монастырь</h1>
+            <p class="lead">Духовный центр и историческая жемчужина Тихвина</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="carousel-section">
+            <div id="monasteryCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#monasteryCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#monasteryCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#monasteryCarousel" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#monasteryCarousel" data-bs-slide-to="3"></button>
+                    <button type="button" data-bs-target="#monasteryCarousel" data-bs-slide-to="4"></button>
+                    <button type="button" data-bs-target="#monasteryCarousel" data-bs-slide-to="5"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="img/monastir1.webp" class="d-block w-100" alt="Успенский собор">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Успенский собор</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/monastir.webp" class="d-block w-100" alt="Тихвинский Богородичный Успенский мужской монастырь">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Тихвинский Богородичный Успенский мужской монастырь</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/monastir2.webp" class="d-block w-100" alt="Тихвинский Богородичный Успенский мужской монастырь">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Тихвинский Богородичный Успенский мужской монастырь</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/monastir3.webp" class="d-block w-100" alt="Колокольня">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Колокольня</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/monastir4.jpg" class="d-block w-100" alt="Монастырские стены">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Монастырские стены</h5>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/monastir5.jpg" class="d-block w-100" alt="Тихвинская икона Божией Матери">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Тихвинская икона Божией Матери</h5>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#monasteryCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#monasteryCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </section>
+
+        <section class="description-section">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2 class="mb-4">Историческое наследие</h2>
+                    <p class="lead">Тихвинский Богородичный Успенский мужской монастырь — православный монастырь в городе Тихвине, один из самых почитаемых и известных монастырей Северо-Запада России.</p>
+                    
+                    <p>Монастырь был основан в 1560 году по указу царя Ивана Грозного на месте явления Тихвинской иконы Божией Матери. Архитектурный ансамбль монастыря складывался на протяжении XVI-XIX веков и представляет собой уникальный памятник русского зодчества.</p>
+                    
+                    <p>Главная святыня монастыря — чудотворная Тихвинская икона Божией Матери, по преданию написанная евангелистом Лукой. Икона была возвращена в монастырь в 2004 году после 60-летнего пребывания за границей.</p>
+                    
+                    <h3 class="mt-4">Архитектурные особенности</h3>
+                    <ul class="feature-list">
+                        <li>Успенский собор (1515 г.) — древнейшее каменное здание монастыря</li>
+                        <li>Колокольня высотой 70 метров с часами-курантами</li>
+                        <li>Крепостные стены с пятью башнями (XVI век)</li>
+                        <li>Покровская церковь с трапезной палатой</li>
+                        <li>Келейные корпуса XVII-XIX веков</li>
+                        <li>Настоятельский корпус в стиле классицизма</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="info-card">
+                        <h4>Режим работы</h4>
+                        <div class="info-item">
+                            <strong>Монастырь:</strong><br>
+                            Ежедневно 7:00 - 20:00
+                        </div>
+                        <div class="info-item">
+                            <strong>Богослужения:</strong><br>
+                            Утрение: 7:00<br>
+                            Вечернее: 17:00<br>
+                            Литургия: 9:00 (воскресенье)
+                        </div>
+                        <div class="info-item">
+                            <strong>Экскурсии:</strong><br>
+                            По предварительной записи
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h4>Контакты</h4>
+                        <div class="info-item">
+                            <strong>Адрес:</strong><br>
+                            г. Тихвин, ул. Тихвинская, 1
+                        </div>
+                        <div class="info-item">
+                            <strong>Телефон:</strong><br>
+                            +7 (81367) 5-17-57
+                        </div>
+                        <div class="info-item">
+                            <strong>Email:</strong><br>
+                            monastery@tikhvin.ru
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="map-section">
+            <h2 class="text-center mb-4">📍 Местоположение монастыря</h2>
+            <div id="map"></div>
+            <div class="text-center mt-3">
+                <p class="text-muted">г. Тихвин, ул. Тихвинская, 1</p>
+            </div>
+        </section>
+
+       <main class="main-content">
+        <div class="attraction">
+            <a href="index.html" class="back-link">← Назад к достопримечательностям</a>
+            
+            <div id="attraction-content">
+            </div>
+        </div>
+    </main>
+
+     <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p>&copy; 2025 Кто куда, а мы в Тихвин! Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        
+        function initMap() {
+            
+            const monasteryCoords = [59.6440, 33.5424];
+            
+            const map = L.map('map').setView(monasteryCoords, 15);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            L.marker(monasteryCoords)
+                .addTo(map)
+                .bindPopup('<b>Тихвинский Богородичный Успенский монастырь</b><br>г. Тихвин, ул. Тихвинская, 1')
+                .openPopup();
+            
+            L.circle(monasteryCoords, {
+                color: 'blue',
+                fillColor: '#3388ff',
+                fillOpacity: 0.1,
+                radius: 200
+            }).addTo(map);
+        }
+        
+        document.addEventListener('DOMContentLoaded', initMap);
+        
+        const myCarousel = document.getElementById('monasteryCarousel');
+        const carousel = new bootstrap.Carousel(myCarousel, {
+            interval: 5000,
+            wrap: true
+        });
+    </script>
+</body>
+</html>
